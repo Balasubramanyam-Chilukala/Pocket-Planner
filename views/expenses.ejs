@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pocket Plan - Expenses</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6b2aad, #ff7070);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .table-container, .form-container {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      margin-bottom: 30px;
+    }
+
+    .table-container table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table-container th, .table-container td {
+      color: white;
+      font-size: 0.9rem;
+      text-align: left;
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .table-container th {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    h2 {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    label {
+      color: white;
+      font-size: 0.9rem;
+      margin-right: 10px;
+      flex: 1;
+    }
+
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(255, 87, 117, 0.8);
+    }
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #ff5a79;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #ff3c63;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Pocket Plan</h1>
+  <div class="container">
+    <!-- Fixed Table Section -->
+    <div class="table-container">
+      <h2>Monthly Expenses (Fixed)</h2>
+      <table>
+        <tr>
+          <th>Category</th>
+          <th>Amount</th>
+        </tr>
+        <tr>
+          <td>Transport</td>
+          <td><%= expenses[0].transport%></td>
+        </tr>
+        <tr>
+          <td>EMI</td>
+          <td><%=expenses[0].emi%></td>
+        </tr>
+        <tr>
+          <td>Rent</td>
+          <td><%=expenses[0].rent%></td>
+        </tr>
+        <tr>
+          <td>Groceries</td>
+          <td><%=expenses[0].groceries%></td>
+        </tr>
+        <tr>
+          <td>Travel</td>
+          <td><%=expenses[0].travel%></td>
+        </tr>
+        <tr>
+          <td>Miscellaneous</td>
+          <td><%=expenses[0].miscellaneous%></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Editable Form Section -->
+    <div class="form-container">
+      <h2>Other Expenses</h2>
+      <form action="/update-expense" method="post">
+        <div class="form-row">
+          <label for="expense-transport">Transport</label>
+          <input type="number" id="expense-transport" placeholder="" value="0" name="transport">
+        </div>
+
+        <div class="form-row">
+          <label for="expense-emi">EMI</label>
+          <input type="number" id="expense-emi" placeholder="" value="0" name="emi">
+        </div>
+
+        <div class="form-row">
+          <label for="expense-rent">Rent</label>
+          <input type="number" id="expense-rent" placeholder="" value="0" name="rent">
+        </div>
+
+        <div class="form-row">
+          <label for="expense-groceries">Groceries</label>
+          <input type="number" id="expense-groceries" placeholder="" value="0" name="groceries">
+        </div>
+
+        <div class="form-row">
+          <label for="expense-travel">Travel</label>
+          <input type="number" id="expense-travel" placeholder="" value="0" name="travel">
+        </div>
+
+        <div class="form-row">
+          <label for="expense-miscellaneous">Miscellaneous</label>
+          <input type="number" id="expense-miscellaneous" placeholder="" value="0" name="miscellaneous">
+        </div>
+
+        <button type="submit">Save Other Expenses</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

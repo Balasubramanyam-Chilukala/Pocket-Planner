@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Manager</title>
+  <style>
+    /* Global Styles */
+    body {
+      
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      height: 100vh;
+      padding-top: 30px;
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6b2aad, #ff7070); /* Background gradient for the body */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+
+    }
+
+    /* Container Styles */
+    .subscription-container {
+      width: 80%;
+      max-width: 800px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.2);
+      font-weight: bold;
+      border-radius: 10px;
+    }
+
+    td button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background: #ff5a79;
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    td button:hover {
+      background: #ff3c63;
+    }
+
+    /* Form Styles */
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      font-size: 1rem;
+    }
+
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 5px rgba(255, 87, 117, 0.8);
+    }
+
+    .form-container button {
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #ff5a79;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .form-container button:hover {
+      background: #ff3c63;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 20px;
+      }
+      .subscription-container {
+        width: 90%;
+      }
+      table {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Subscription Manager</h1>
+
+  <!-- Existing Subscriptions Section -->
+  <div class="subscription-container">
+    <h2>Existing Subscriptions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Subscription Name</th>
+          <th>Amount</th>
+          <th>End Date</th>
+          <th>Cancel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% subscriptions.forEach(subscription => { %>
+            <tr>
+                <!-- <td><%= subscription.username %></td> -->
+                <td><%= subscription.subscription_name %></td>
+                <td><%= subscription.amount %></td>
+                <td><%= subscription.end_date %></td>
+                <td><a href="/cancel-subs/<%= subscription.id %>"><button>Cancel</button>
+                </a></td>
+            </tr>
+        <% }) %>
+    </tbody>
+    </table>
+  </div>
+
+  <!-- Add Subscription Section -->
+  <div class="subscription-container">
+    <h2>Add Subscription</h2>
+    <form class="form-container" action="add-subs" method="post">
+      <input type="text" placeholder="Subscription Name" name="subs-name" required>
+      <input type="number" placeholder="Amount" name="subs-amount" required>
+      <input type="date" name="end-date" required>
+      <button type="submit">Add Subscription</button>
+    </form>
+  </div>
+</body>
+</html>

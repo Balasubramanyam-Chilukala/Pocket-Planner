@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscription Manager</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #6b2aad, #ff7070); /* Background gradient for the body */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      background-color: transparent; /* Remove white background */
+      box-shadow: none; /* Remove shadow */
+    }
+
+    h1 {
+      color: white; /* Update heading color to white */
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: center;
+      background-color: transparent; /* Make table background transparent */
+    }
+
+    th, td {
+      padding: 15px;
+      font-size: 1rem;
+      color: white; /* White text for both headers and cells */
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.2); /* Transparent white background for headers */
+    }
+
+    td {
+      background: rgba(255, 255, 255, 0.1); /* Transparent white for table cells */
+    }
+
+    input[type="number"], input[type="date"] {
+      padding: 8px;
+      width: 90%;
+      border: 1px solid white; /* Border color matching white text */
+      border-radius: 0; /* Remove border radius */
+      font-size: 1rem;
+      background-color: transparent; /* Transparent background */
+      color: white; /* White text for input fields */
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #ff7070; /* Highlight border on focus */
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: white;
+      background-color: #ff7070; /* Button color matching the gradient */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e85c5c; /* Slightly darker shade for hover effect */
+    }
+
+    button:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Subscription Tracker</h1>
+    <form id="subscriptionForm" action="/subscription-ques" method="post">
+      <table>
+        <thead>
+          <tr>
+            <th>App Name</th>
+            <th>Amount (₹)</th>
+            <th>End Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Netflix</td>
+            <td><input type="number" name="netflix-a"></td>
+            <td><input type="date" name="netflix-d"></td>
+          </tr>
+          <tr>
+            <td>Amazon Prime</td>
+            <td><input type="number" name="amazon-a"></td>
+            <td><input type="date" name="amazon-d"></td>
+          </tr>
+          <tr>
+            <td>Apple TV</td>
+            <td><input type="number" name="apple-a"></td>
+            <td><input type="date" name="apple-d"></td>
+          </tr>
+          <tr>
+            <td>Spotify</td>
+            <td><input type="number" name="spotify-a"></td>
+            <td><input type="date" name="spotify-d"></td>
+          </tr>
+          <tr>
+            <td>Aha</td>
+            <td><input type="number" name="aha-a"></td>
+            <td><input type="date" name="aha-d"></td>
+          </tr>
+          <tr>
+            <td>Disney Hotstar</td>
+            <td><input type="number" name="hotstar-a"></td>
+            <td><input type="date" name="hotstar-d"></td>
+          </tr>
+          <tr>
+            <td>Sun NXT</td>
+            <td><input type="number" name="sun-a"></td>
+            <td><input type="date" name="sun-d"></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>

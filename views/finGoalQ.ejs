@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Goals Manager</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6b2aad, #ff7070); /* Gradient background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2rem; /* Reduced font size */
+            margin-bottom: 20px; /* Reduced margin */
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px 40px; /* Reduced padding */
+            border-radius: 12px; /* Slightly smaller border radius */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            width: 500px; /* Reduced width of the form */
+        }
+
+        h2 {
+            color: white;
+            font-size: 1.5rem; /* Reduced font size for section title */
+            margin-bottom: 20px; /* Reduced margin */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Reduced gap between form fields */
+        }
+
+        .form-row {
+            display: flex;
+            gap: 30px; /* Reduced gap between inputs in the same row */
+            justify-content: space-between;
+        }
+
+        .input-group {
+            width: 150px; /* Reduced width for input fields */
+            margin-bottom: 25px; /* Increased margin between input fields for more space */
+        }
+
+        label {
+            color: white;
+            font-size: 0.9rem; /* Reduced font size for labels */
+            text-align: left;
+            width: 100%;
+        }
+
+        input {
+            padding: 12px; /* Reduced padding for inputs */
+            border: none;
+            border-radius: 6px; /* Smaller border radius for input fields */
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            font-size: 0.9rem; /* Reduced font size for inputs */
+            width: 100%;
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: 0 0 6px rgba(255, 87, 117, 0.8);
+        }
+
+        button {
+            padding: 12px 20px; /* Reduced padding for button */
+            border: none;
+            border-radius: 6px; /* Smaller border radius for button */
+            background: #ff5a79;
+            color: white;
+            font-size: 1rem; /* Reduced font size for the button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 180px; /* Reduced width for the button */
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background: #ff3c63;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Set Your Financial Goals</h1>
+        <div class="form-container">
+            <h2>Financial Goals</h2>
+            <form action="fin-goals" method="post">
+                <div class="form-row">
+                    <!-- First row for the first goal -->
+                    <div class="input-group">
+                        <label for="goalName1">Goal Name</label>
+                        <input type="text" id="goalName1" placeholder="e.g., Vacation" name="fin-goal1">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountToSave1">Amount to Save</label>
+                        <input type="number" id="amountToSave1" placeholder="Amount" name="fin-goal2">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountSaved1">Amount Saved</label>
+                        <input type="number" id="amountSaved1" placeholder="Amount Saved" name="fin-goal3">
+                    </div>
+                </div>
+
+                <!-- Second row for another goal -->
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="goalName2"></label>
+                        <input type="text" id="goalName2" placeholder="e.g., Car" name="fin-goal4">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountToSave2"></label>
+                        <input type="number" id="amountToSave2" placeholder="Amount" name="fin-goal5">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountSaved2"></label>
+                        <input type="number" id="amountSaved2" placeholder="Amount Saved" name="fin-goal6">
+                    </div>
+                </div>
+
+                <!-- Third row for another goal -->
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="goalName3"></label>
+                        <input type="text" id="goalName3" placeholder="e.g., Mobile" name="fin-goal7">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountToSave3"></label>
+                        <input type="number" id="amountToSave3" placeholder="Amount" name="fin-goal8" >
+                    </div>
+                    <div class="input-group">
+                        <label for="amountSaved3"></label>
+                        <input type="number" id="amountSaved3" placeholder="Amount Saved" name="fin-goal9">
+                    </div>
+                </div>
+
+                <!-- Fourth row for another goal -->
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="goalName4"></label>
+                        <input type="text" id="goalName4" placeholder="e.g., House" name="fin-goal10">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountToSave4"></label>
+                        <input type="number" id="amountToSave4" placeholder="Amount" name="fin-goal11">
+                    </div>
+                    <div class="input-group">
+                        <label for="amountSaved4"></label>
+                        <input type="number" id="amountSaved4" placeholder="Amount Saved" name="fin-goal12">
+                    </div>
+                </div>
+
+                <button type="submit">Save Goals</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

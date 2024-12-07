@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pocket Plan - Financial Goals</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6b2b89 0%, #ff7676 100%);
+            padding: 2rem;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .goal-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .goal-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .goal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .goal-stats {
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin-top: 1rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .amount {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Financial Goals</h1>
+        
+        <div class="goals-grid">
+            <% goals.forEach((goal, index) => { %>
+                <div class="goal-card">
+                    <h2 class="goal-title"><%= goal.goal %></h2>
+                    <div class="goal-stats">
+                        <div class="stat-row">
+                            <span class="progress-label">Target Amount</span>
+                            <span class="amount"><%= parseFloat(goal.saved) + parseFloat(goal.remaining) %>
+                            </span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="progress-label">Saved</span>
+                            <span class="amount"><%= goal.saved %></span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="progress-label">Remaining</span>
+                            <span class="amount"><%= goal.remaining %></span>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="chart<%= index %>"></canvas>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+
+    <script>
+        Chart.defaults.color = '#fff';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        
+        const goals = <%- JSON.stringify(goals); %>;
+
+        goals.forEach((goal, index) => {
+            const ctx = document.getElementById(`chart${index}`);
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Saved', 'Remaining'],
+                    datasets: [{
+                        data: [goal.saved, goal.remaining],
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.8)',
+                            'rgba(255, 255, 255, 0.2)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                color: '#fff',
+                                padding: 15
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketPlanner - Real-time Stock & Gold Price</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #6b2aad, #ff7070); /* Gradient background */
+            margin: 0;
+            padding: 0;
+            color: #ffffff; /* White text for readability */
+        }
+        .content {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent white overlay */
+            border-radius: 10px;
+        }
+        h1 {
+            color: #ffffff; /* Bright white for the title */
+            text-align: center;
+            font-size: 2rem;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2); /* Slightly transparent overlay */
+            border-radius: 5px;
+        }
+        .section h2 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #ffffff; /* Keep headers white */
+        }
+        .section ul li a {
+            color: #ffcccb; /* Soft coral tone for links */
+            text-decoration: none;
+        }
+        .section ul li a:hover {
+            color: #ffc0cb; /* Slightly lighter coral on hover */
+            text-decoration: underline;
+        }
+        footer {
+            background: #6b2aad;
+            color: #ffffff; /* White text on footer */
+            text-align: center;
+            padding: 10px;
+        }
+        footer a {
+            color: #ffcccb; /* Footer links in coral */
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content">
+    <h1>PocketPlanner</h1>
+    <p style="text-align: center;">Your trusted financial management partner</p>
+
+    <div class="section">
+        <h2>Stock Price for AAPL: <span id="stockPriceAAPL">Loading...</span></h2>
+    </div>
+
+    <div class="section">
+        <h2>Stock Price for GOOGL: <span id="stockPriceGOOGL">Loading...</span></h2>
+    </div>
+
+    <div class="section">
+        <h2>Stock Price for TSLA: <span id="stockPriceTSLA">Loading...</span></h2>
+    </div>
+
+    <div class="section">
+        <h2>Stock Price for NFLX: <span id="stockPriceNFLX">Loading...</span></h2>
+    </div>
+
+    <div class="section">
+        <h2>Gold Price (INR per gram): <span id="goldPrice">Loading...</span></h2>
+    </div>
+
+    <div class="section">
+        <h2>Investment Suggestions:</h2>
+        <ul>
+            <li><a href="https://www.moneycontrol.com/mutual-funds/">Mutual Funds</a> – A great option for long-term growth with moderate risk.</li>
+            <li><a href="https://www.investopedia.com/terms/r/realestate.asp">Real Estate</a> – Physical assets that provide steady returns through rental income and long-term value appreciation.</li>
+            <li><a href="https://www.investopedia.com/terms/s/stocks.asp">Stocks</a> – Equity investments with potential for high returns, but they come with higher risk.</li>
+            <li><a href="https://www.investopedia.com/terms/c/cryptocurrency.asp">Cryptocurrencies</a> – Digital currencies like Bitcoin and Ethereum, highly volatile but increasingly popular.</li>
+            <li><a href="https://www.investopedia.com/terms/g/gold.asp">Gold</a> – A timeless safe-haven investment, especially during market volatility.</li>
+        </ul>
+    </div>
+</div>
+
+<footer>&copy; 2024 PocketPlanner</footer>
+
+<script>
+    const polygonApiKey = 'Lg0Sh8u6HL_W9WYzbBWMps9queULt8kE'; // Your Polygon.io API Key
+    const goldApiKey = 'goldapi-3p08qsm4cyznab-io'; // Gold API Key
+
+    function fetchStockPrice(symbol, elementId) {
+        const url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/prev?apiKey=${polygonApiKey}`;
+        $.get(url, function(data) {
+            if (data && data.results && data.results.length > 0) {
+                const stockData = data.results[0];
+                $('#' + elementId).text(parseFloat(stockData.c).toFixed(2));
+            } else {
+                $('#' + elementId).text('Data not available');
+            }
+        }).fail(function() {
+            $('#' + elementId).text('Error fetching data');
+        });
+    }
+
+    function fetchGoldPrice() {
+        const url = 'https://www.goldapi.io/api/XAU/INR';
+        $.ajax({
+            url: url,
+            method: 'GET',
+            headers: {
+                'x-access-token': goldApiKey
+            },
+            success: function(data) {
+                const goldPrice = data.price;
+                const goldPricePerGram = (goldPrice / 31.1035).toFixed(2);
+                $('#goldPrice').text(`₹${goldPricePerGram} per gram`);
+            },
+            error: function() {
+                $('#goldPrice').text('Error fetching gold data');
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        fetchStockPrice('AAPL', 'stockPriceAAPL');
+        fetchStockPrice('GOOGL', 'stockPriceGOOGL');
+        fetchStockPrice('TSLA', 'stockPriceTSLA');
+        fetchStockPrice('NFLX', 'stockPriceNFLX');
+        fetchGoldPrice();
+    });
+</script>
+
+</body>
+</html>
