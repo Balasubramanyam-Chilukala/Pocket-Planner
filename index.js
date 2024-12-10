@@ -29,11 +29,12 @@ db.connect((err) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
+//login
 app.get("/", async (req, res) => {
     res.render("index.ejs");
   });
 
+  //home page
   app.post("/home", async (req, res) => {
     console.log(req.body);
     const { username, password } = req.body;
@@ -60,10 +61,12 @@ app.get("/", async (req, res) => {
     }
   });
   
+  //registration page
   app.get("/register", async (req, res) => {
     res.render("register.ejs");
   });
 
+  //Questions about user
   app.post("/questions",(req,res)=>{
     console.log(req.body);
     const query = `
@@ -90,6 +93,7 @@ app.get("/", async (req, res) => {
 
   let chatHistory = [];
 
+  //Go to bot
 app.get("/finbot", async (req, res) => {
     var a = await run();
     console.log();
@@ -102,6 +106,7 @@ app.get("/finbot", async (req, res) => {
     res.render("recom.ejs", { obj : obj });
 });
 
+//expense page
 app.get("/expenses", async (req, res) => {
   const query = 'SELECT * FROM expenses WHERE username = $1';
   const values = [userr];
@@ -110,17 +115,33 @@ app.get("/expenses", async (req, res) => {
   res.render("expenses.ejs", { expenses: result.rows });
 });
 
+//Investment planning page
 app.get("/invest", async (req, res) => {
-  res.render("invest.ejs"); // Render the invest.ejs page
+  res.render("invest.ejs"); 
 });
 
-
+//Profile page
+app.get("/profile",async (req, res) => {
+  const query = 'SELECT * FROM users WHERE username = $1';
+  const values = [userr];
+  const result = await db.query(query, values);
+  console.log(result.rows);
+  const quer = 'SELECT * FROM subscriptions WHERE username = $1';
+  const value = [userr];
+  const resul = await db.query(quer, value);
+  const querry = 'SELECT * FROM financialgoals WHERE username = $1';
+  const valu = [userr];
+  const resull = await db.query(querry, valu);
+  res.render("profile.ejs", { user: result.rows[0],len : resul.rows.length, });
+})
+//Takes from user questions and directs to expense questions
 app.post("/submit",(req,res)=>{
   console.log(req.body);
 
   res.render("expensesQ.ejs");
 });
 
+//Update Expense
 app.post("/update-expense",async (req,res)=>{
   console.log(req.body);
   try{
@@ -175,6 +196,7 @@ console.log("Update Result with Returning:", ress.rows[0]);
   }
 });
 
+//Subscription questions
 app.post("/eques",(req,res)=>{
   console.log(req.body);
   const query = `
@@ -193,6 +215,7 @@ app.post("/eques",(req,res)=>{
       }
       });
 });
+//Subscription questions submitted and goes to Financial goals
 app.post("/subscription-ques", async (req, res) =>{
   console.log(req.body);
   try {
@@ -219,12 +242,12 @@ app.post("/subscription-ques", async (req, res) =>{
   } 
 });
 
+//Subscription page
 app.get("/subscriptions", (req, res)=>{
-  const query = 'SELECT * FROM subscriptions WHERE username=$1';  // Fetching all subscriptions
+  const query = 'SELECT * FROM subscriptions WHERE username=$1';  
   const values = [userr];
     db.query(query, values)
         .then(result => {
-            // Pass the subscription data as an object to EJS
             res.render('subscriptions.ejs', { subscriptions: result.rows });
         })
         .catch(err => {
@@ -233,57 +256,50 @@ app.get("/subscriptions", (req, res)=>{
         });
 });
 
+//Cancel subscription 
 app.get('/cancel-subs/:id', (req, res) => {
-  const subscriptionId = req.params.id; // Get the subscription ID from the URL parameter
-
-  // Ensure that the query is properly formatted
-  const query = 'DELETE FROM subscriptions WHERE id = $1'; // Corrected query
-
-  // Execute the query
+  const subscriptionId = req.params.id; 
+  const query = 'DELETE FROM subscriptions WHERE id = $1'; 
   db.query(query, [subscriptionId], (err, result) => {
       if (err) {
           console.error('Error canceling subscription:', err);
           return res.status(500).send('Error canceling subscription');
       }
 
-      // Redirect to a page showing the updated subscription list or a success message
-      res.redirect('/subscriptions'); // Replace with the appropriate route if necessary
+      res.redirect('/subscriptions'); 
   });
 });
 
+//Add subscription
+
 app.post('/add-subs', (req, res) => {
   console.log(req.body);
-  // Get form data from the request body
   const { 'subs-name': subsName, 'subs-amount': subsAmount, 'end-date': endDate} = req.body;
 
-  // Check if all fields are provided
   if (!subsName || !subsAmount || !endDate) {
     return res.status(400).send('All fields are required.');
   }
 
-  // SQL query to insert subscription data into the database
   const query = `
     INSERT INTO subscriptions (subscription_name, amount, end_date, username)
     VALUES ($1, $2, $3, $4)
   `;
 
-  // Execute the query with the form data and the username
   db.query(query, [subsName, subsAmount, endDate, userr], (err, result) => {
     if (err) {
       console.error('Error adding subscription:', err);
       return res.status(500).send('Error adding subscription');
     }
 
-    // Redirect to the page displaying the list of subscriptions after successful insertion
-    res.redirect('/subscriptions'); // Replace with the appropriate route for displaying subscriptions
+    res.redirect('/subscriptions'); 
   });
 });
 
+//Chatbot
 
 app.post('/chat', async (req, res) => {
   const userMessage = req.body.message;
 
-  // Check if chat history exists for the session
   let chat;
   if (chatHistory.length > 0) {
     chat = model.startChat({ history: chatHistory });
@@ -303,15 +319,13 @@ app.post('/chat', async (req, res) => {
   res.render('chat.ejs', { chatHistory });
 });
 
+//Financial goals page
 app.get('/financial-goals', async (req, res) => {
-  const username = userr;  // Replace with actual user logic (like session or JWT)
+  const username = userr;  
 
   try {
-    // Query to get all goals for the logged-in user
     const result = await db.query('SELECT goal, saved, remaining FROM financialGoals WHERE username = $1', [username]);
-    const goals = result.rows; // Extract rows from the result
-
-    // Render the EJS template with the goals data
+    const goals = result.rows; 
     res.render('finGoals.ejs', { goals });
   } catch (err) {
     console.error('Error fetching financial goals:', err);
@@ -319,19 +333,16 @@ app.get('/financial-goals', async (req, res) => {
   }
 });
 
-
+//Financial goal questions
 app.post('/fin-goals', async (req, res) => {
-  // Extract form data from the request
   const { 'fin-goal1': goalName1, 'fin-goal2': amountToSave1, 'fin-goal3': amountSaved1 } = req.body;
   const { 'fin-goal4': goalName2, 'fin-goal5': amountToSave2, 'fin-goal6': amountSaved2 } = req.body;
   const { 'fin-goal7': goalName3, 'fin-goal8': amountToSave3, 'fin-goal9': amountSaved3 } = req.body;
   const { 'fin-goal10': goalName4, 'fin-goal11': amountToSave4, 'fin-goal12': amountSaved4 } = req.body;
 
-  // Assuming username is stored in the session or passed with the form
-  const username = userr; // Replace this with actual logic
+  const username = userr; 
 
   try {
-    // Insert each financial goal into the financialGoals table
     const insertQuery = `
       INSERT INTO financialGoals (username, saved, remaining,goal)
       VALUES ($1, $2, $3,$4), ($5, $6, $7,$8), ($9, $10, $11,$12), ($13, $14, $15,$16)
@@ -344,10 +355,9 @@ app.post('/fin-goals', async (req, res) => {
       username, parseFloat(amountSaved4), parseFloat(amountToSave4) - parseFloat(amountSaved4),goalName4,
     ];
 
-    // Execute the query
     await db.query(insertQuery, values);
 
-    res.render("home.ejs"); // Redirect to a success page or return a success message
+    res.render("home.ejs"); 
   } catch (err) {
     console.error('Error saving financial goals:', err);
     res.status(500).send('Error saving financial goals. Please try again later.');
@@ -358,7 +368,6 @@ app.post('/fin-goals', async (req, res) => {
   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
 
 async function run() {
-  // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
 
   const prompt = "I want some assistance in finance. Can you help me with that?";

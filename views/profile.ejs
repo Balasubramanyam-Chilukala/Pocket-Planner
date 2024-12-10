@@ -160,9 +160,9 @@
     <div class="container">
         <div class="profile-grid">
             <aside class="profile-sidebar">
-                <img src="/placeholder.svg?height=150&width=150" alt="Profile Picture" class="profile-picture">
-                <h2>John Doe</h2>
-                <p>Email: john.doe@example.com</p>
+                <img src="/placeholder.svg?height=150&width=150" alt="" class="profile-picture">
+                <h2><%= user.username %></h2>
+                <p><%= user.email %></p>
             </aside>
             <main class="profile-main">
                 <h2>Monthly Expenses</h2>
@@ -207,7 +207,7 @@
                     </div>
                     <div class="stat-card">
                         <h3>Savings Goal Progress</h3>
-                        <p>68%</p>
+                        <p><%= per%></p>
                         <div class="progress-bar">
                             <div class="progress"></div>
                         </div>
@@ -216,10 +216,10 @@
                 <div class="quick-access">
                     <h2>Quick Access</h2>
                     <div class="quick-access-grid">
-                        <a href="#" class="quick-access-item">Add Expense</a>
-                        <a href="#" class="quick-access-item">Set Budget</a>
-                        <a href="#" class="quick-access-item">View Reports</a>
-                        <a href="#" class="quick-access-item">Manage Goals</a>
+                        <a href="/expenses" class="quick-access-item">Add Expense</a>
+                        <a href="/subscriptions" class="quick-access-item">Subscription</a>
+                        <a href="/invest" class="quick-access-item">Investment</a>
+                        <a href="/financial-goals" class="quick-access-item">Financial Goals</a>
                     </div>
                 </div>
             </main>
